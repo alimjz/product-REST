@@ -1,29 +1,16 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "TBL_PRODUCT")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROD_ID")
+public class ProductDto {
     private Long prodId;
-    @NotNull(message = "The Product Code Should not be Null or Empty.")
-    @NotEmpty(message = "The Product Code Should not be Null or Empty.")
     @NotBlank(message = "The Prod Code should not blank.")
     private String prodCode;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
-    @NotEmpty(message = "The Product Name Should not be Null or Empty.")
     @NotBlank(message = "The Product Name should not blank.")
     private String prodName;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
-    @NotEmpty(message = "The Buy Price Should not be Null or Empty.")
+    @NotBlank(message = "The Sell Price Should not be Null or Empty.")
     private String buyPrice;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
     @NotEmpty(message = "The Sell Price Should not be Null or Empty.")
     private String sellPrice;
     private String model;
