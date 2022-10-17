@@ -57,7 +57,7 @@ public class Address {
     public void setStreet(String street) {
         this.street = street;
     }
-    
+
 
     public String getBuildingNo() {
         return buildingNo;
