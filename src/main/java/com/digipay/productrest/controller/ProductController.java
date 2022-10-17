@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -49,7 +50,7 @@ public class ProductController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveProduct.getProdId())
                 .toUri();
         log.info("Product Saved.");
-        return ResponseEntity.created(location).body(new BaseResponse(HttpStatus.CREATED.value(),
+        return ResponseEntity.created(location).body(new BaseResponse<>(HttpStatus.CREATED.value(),
                 DigipayConstants.SUCCESS));
     }
 
@@ -62,13 +63,32 @@ public class ProductController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
     @GetMapping("/products")
-    public ResponseEntity<BaseResponse> findAllProducts(){
+    public ResponseEntity<BaseResponse<List<Product>>> findAllProducts() {
         List<Product> result = prodService.findAllProductsList();
-        if (prodService.findAllProductsList().isEmpty()){
-            return ResponseEntity.ok().body(new BaseResponse(HttpStatus.NO_CONTENT.value(), DigipayConstants.NO_CONTENT,
-                    null));
+        if (result.isEmpty()) {
+            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), DigipayConstants.NO_CONTENT,
+                    null, null));
         }
-        return ResponseEntity.ok().body(new BaseResponse(HttpStatus.OK.value(), DigipayConstants.FOUND,
-                null,result));
+        return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), DigipayConstants.FOUND,
+                null, result));
+    }
+
+    @Operation(summary = "Query product based on entered ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product found.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Product.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
+    @GetMapping("/products/{id}")
+    public ResponseEntity<BaseResponse<Optional<Product>>> findProductById(@PathVariable(name = "id") Long id) {
+        Optional<Product> result = prodService.findProductById(id);
+        if (result.isPresent()){
+            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.FOUND.value(), DigipayConstants.FOUND,
+                    null,result));
+        }
+        return new ResponseEntity<>(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), DigipayConstants.FOUND,
+                null,null),HttpStatus.NOT_FOUND);
     }
 }

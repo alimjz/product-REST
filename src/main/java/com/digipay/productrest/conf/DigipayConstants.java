@@ -10,4 +10,6 @@ public class DigipayConstants {
     public static final String FOUND = "Product found.";
     public static final String NO_CONTENT = "There is No Product Inserted.";
 
+    public static final String NOT_FOUND = "No Product Found by Entered ID.";
+
 }

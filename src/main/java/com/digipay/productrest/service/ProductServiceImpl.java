@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
-// TODO: 10/16/2022 why since there is no transaction, it is working. 
+
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository prodRepository;
@@ -33,6 +34,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     public List<Product> findAllProductsList() {
         return prodRepository.findAll();
+    }
+
+    @Override
+    public Optional<Product> findProductById(Long id) {
+        return prodRepository.findById(id);
     }
 
     private Product getProductEntity(ProductDto productDto) {

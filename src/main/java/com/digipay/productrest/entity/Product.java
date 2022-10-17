@@ -2,8 +2,6 @@ package com.digipay.productrest.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -12,23 +10,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROD_ID")
     private Long prodId;
-    @NotNull(message = "The Product Code Should not be Null or Empty.")
-    @NotEmpty(message = "The Product Code Should not be Null or Empty.")
-    @NotBlank(message = "The Prod Code should not blank.")
+
+    @NotBlank(message = "The Prod Code should not be null or Empty.")
     private String prodCode;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
-    @NotEmpty(message = "The Product Name Should not be Null or Empty.")
-    @NotBlank(message = "The Product Name should not blank.")
+
+    @NotBlank(message = "The Product Name should not be null or Empty.")
     private String prodName;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
-    @NotEmpty(message = "The Buy Price Should not be Null or Empty.")
+
+    @NotBlank(message = "The Product buyPrice should not be null or Empty.")
     private String buyPrice;
-    @NotNull(message = "The Sell Price Should not be Null or Empty.")
-    @NotEmpty(message = "The Sell Price Should not be Null or Empty.")
+    @NotBlank(message = "The Product sellPrice should not be null or Empty.")
     private String sellPrice;
     private String model;
     private String prodType;
     private String prodSubType;
+    @OneToOne
+    @JoinColumn(name = "WAREHOUSE_ID")
+    private Warehouse warehouse;
 
 
     public Long getProdId() {
@@ -93,5 +91,13 @@ public class Product {
 
     public void setProdSubType(String prodSubType) {
         this.prodSubType = prodSubType;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }
