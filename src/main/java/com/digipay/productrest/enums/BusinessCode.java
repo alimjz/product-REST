@@ -1,9 +1,10 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.enums;
 
 public enum BusinessCode {
     STOCKIN,
     RETURNPRODUCT,
     PRINTRECEIPT,
     DELIVERY,
-    USERSUBMISSION
+    USERSUBMISSION,
+    SALE
 }

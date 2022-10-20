@@ -1,22 +1,13 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.digipay.productrest.entity.Contact;
+import com.digipay.productrest.entity.Role;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TBL_USER")
-public class User {
-    @Id
-    @Column(name = "USER_ID")
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+public class UserDto {
     private String userId;
     private String userName;
     private String userLastName;
     private Role role;
-    @OneToOne
-    @JoinColumn(name = "CONTACT_ID")
     private Contact contact;
 
     public String getUserId() {

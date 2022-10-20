@@ -1,17 +1,8 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
 import com.digipay.productrest.enums.AddressType;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TBL_ADDRESS")
-public class Address {
-    @Id
-    @Column(name = "ADDRESS_ID")
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+public class AddressDto {
     private String addressId;
     private AddressType addressType;
     private String province;
@@ -20,8 +11,6 @@ public class Address {
 
     private String buildingNo;
     private String postalCode;
-
-
 
     public String getAddressId() {
         return addressId;
@@ -62,7 +51,6 @@ public class Address {
     public void setStreet(String street) {
         this.street = street;
     }
-
 
     public String getBuildingNo() {
         return buildingNo;

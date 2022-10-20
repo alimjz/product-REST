@@ -1,7 +1,7 @@
 package com.digipay.productrest.conf;
 
-public class DigipayConstants {
-    private DigipayConstants() {
+public class ApplicationConstants {
+    private ApplicationConstants() {
     }
 
     public static final String SUCCESS = "Operation is done Successfully.";

@@ -1,7 +1,10 @@
 package com.digipay.productrest.entity;
 
+import com.digipay.productrest.enums.ProductStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -17,10 +20,12 @@ public class Product {
     @NotBlank(message = "The Product Name should not be null or Empty.")
     private String prodName;
 
-    @NotBlank(message = "The Product buyPrice should not be null or Empty.")
-    private String buyPrice;
-    @NotBlank(message = "The Product sellPrice should not be null or Empty.")
-    private String sellPrice;
+    @NotNull(message = "The Product buyPrice should not be null or Empty.")
+    private Double buyPrice;
+    @NotNull(message = "The Product sellPrice should not be null or Empty.")
+    private Double sellPrice;
+    @Column(name = "STATUS")
+    private ProductStatus status = ProductStatus.AVAILABLE;
     private String model;
     private String prodType;
     private String prodSubType;
@@ -53,19 +58,19 @@ public class Product {
         this.prodName = prodName;
     }
 
-    public String getBuyPrice() {
+    public Double getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(String buyPrice) {
+    public void setBuyPrice(Double buyPrice) {
         this.buyPrice = buyPrice;
     }
 
-    public String getSellPrice() {
+    public Double getSellPrice() {
         return sellPrice;
     }
 
-    public void setSellPrice(String sellPrice) {
+    public void setSellPrice(Double sellPrice) {
         this.sellPrice = sellPrice;
     }
 

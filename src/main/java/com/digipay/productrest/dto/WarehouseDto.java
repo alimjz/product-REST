@@ -1,20 +1,10 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.digipay.productrest.entity.Address;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TBL_WAREHOUSE")
-public class Warehouse {
-    @Id
-    @Column(name = "WAREHOUSE_ID")
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+public class WarehouseDto {
     private String warehouseId;
     private String warehouseName;
-    @OneToOne
-    @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
     public String getWarehouseId() {

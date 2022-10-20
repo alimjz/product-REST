@@ -1,7 +1,7 @@
 package com.digipay.productrest.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ProductDto {
     private Long prodId;
@@ -9,10 +9,10 @@ public class ProductDto {
     private String prodCode;
     @NotBlank(message = "The Product Name should not blank.")
     private String prodName;
-    @NotBlank(message = "The Sell Price Should not be Null or Empty.")
-    private String buyPrice;
-    @NotEmpty(message = "The Sell Price Should not be Null or Empty.")
-    private String sellPrice;
+    @NotNull(message = "The Sell Price Should not be Null or Empty.")
+    private Double buyPrice;
+    @NotNull(message = "The Sell Price Should not be Null or Empty.")
+    private Double sellPrice;
     private String model;
     private String prodType;
     private String prodSubType;
@@ -42,19 +42,19 @@ public class ProductDto {
         this.prodName = prodName;
     }
 
-    public String getBuyPrice() {
+    public Double getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(String buyPrice) {
+    public void setBuyPrice(Double buyPrice) {
         this.buyPrice = buyPrice;
     }
 
-    public String getSellPrice() {
+    public Double getSellPrice() {
         return sellPrice;
     }
 
-    public void setSellPrice(String sellPrice) {
+    public void setSellPrice(Double sellPrice) {
         this.sellPrice = sellPrice;
     }
 

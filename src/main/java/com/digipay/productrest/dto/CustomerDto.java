@@ -1,16 +1,8 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.digipay.productrest.entity.Contact;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TBL_CUSTOMER")
-public class Customer {
-    @Id
-    @Column(name = "CUSTOMER_ID")
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+public class CustomerDto {
     private String customerId;
     private String nationalId;
     private String firstName;
@@ -18,8 +10,6 @@ public class Customer {
     private String birthDate;
     private String birthCertificateNo;
     private String birthPlace;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CONTACT_ID")
     private Contact contactInfo;
 
     public String getCustomerId() {

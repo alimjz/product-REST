@@ -1,16 +1,7 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
-import org.hibernate.annotations.GenericGenerator;
+public class InvoiceDto {
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TBL_INVOICE")
-public class Invoice {
-    @Id
-    @Column(name = "INVOICE_ID")
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
     private String invoiceId;
     private Double baseFee;
     private Double tax;

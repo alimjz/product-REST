@@ -1,6 +1,6 @@
 package com.digipay.productrest.exception;
 
-import com.digipay.productrest.conf.DigipayConstants;
+import com.digipay.productrest.conf.ApplicationConstants;
 import com.digipay.productrest.dto.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +22,23 @@ public class ExceptionTranslator {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<BaseResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<BaseResponse<Map<String,String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(),
-                DigipayConstants.BADREQUEST, errors));
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.BAD_REQUEST.value(),
+                ApplicationConstants.BADREQUEST, errors));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<BaseResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+    public ResponseEntity<BaseResponse<Map<String,String>>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         Map<String, String> map = new HashMap<>();
         map.put(TITLE, METHOD_NOT_ALLOWED);
-        return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.METHOD_NOT_ALLOWED.value(),
-                DigipayConstants.BADREQUEST, map));
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(),
+                ApplicationConstants.BADREQUEST, map));
     }
 }

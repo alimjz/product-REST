@@ -1,6 +1,6 @@
 package com.digipay.productrest.controller;
 
-import com.digipay.productrest.conf.DigipayConstants;
+import com.digipay.productrest.conf.ApplicationConstants;
 import com.digipay.productrest.dto.BaseResponse;
 import com.digipay.productrest.dto.ProductDto;
 import com.digipay.productrest.entity.Product;
@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
 public class ProductController {
-    private ProductService prodService;
+    private final ProductService prodService;
     private final Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
@@ -44,14 +43,13 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
-    public ResponseEntity<BaseResponse> storeProduct(@RequestBody @Valid ProductDto productDto) {
+    public ResponseEntity<BaseResponse<Product>> storeProduct(@RequestBody @Valid ProductDto productDto) {
 
-        Product saveProduct = prodService.saveProduct(productDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveProduct.getProdId())
-                .toUri();
+        Product savedProduct = prodService.saveProduct(productDto);
         log.info("Product Saved.");
-        return ResponseEntity.created(location).body(new BaseResponse<>(HttpStatus.CREATED.value(),
-                DigipayConstants.SUCCESS));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedProduct.getProdId())
+                .toUri()).body(new BaseResponse<>(HttpStatus.CREATED.value(),
+                ApplicationConstants.SUCCESS));
     }
 
     @Operation(summary = "Query List of all products")
@@ -66,10 +64,10 @@ public class ProductController {
     public ResponseEntity<BaseResponse<List<Product>>> findAllProducts() {
         List<Product> result = prodService.findAllProductsList();
         if (result.isEmpty()) {
-            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), DigipayConstants.NO_CONTENT,
+            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), ApplicationConstants.NO_CONTENT,
                     null, null));
         }
-        return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), DigipayConstants.FOUND,
+        return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), ApplicationConstants.FOUND,
                 null, result));
     }
 
@@ -85,10 +83,10 @@ public class ProductController {
     public ResponseEntity<BaseResponse<Optional<Product>>> findProductById(@PathVariable(name = "id") Long id) {
         Optional<Product> result = prodService.findProductById(id);
         if (result.isPresent()){
-            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.FOUND.value(), DigipayConstants.FOUND,
+            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.FOUND.value(), ApplicationConstants.FOUND,
                     null,result));
         }
-        return new ResponseEntity<>(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), DigipayConstants.FOUND,
+        return new ResponseEntity<>(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), ApplicationConstants.FOUND,
                 null,null),HttpStatus.NOT_FOUND);
     }
 }

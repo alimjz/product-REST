@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.enums;
 
 public enum AddressType {
     WAREHOUSE,

@@ -1,35 +1,26 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.dto;
 
+import com.digipay.productrest.entity.Customer;
+import com.digipay.productrest.entity.Invoice;
+import com.digipay.productrest.entity.Product;
 import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.enums.OrderStatus;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "TBL_Orders")
-public class Order {
-    @Id
-    @Column(name = "ORDER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
-    @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "PROD_ID")
-    private List<Product> product;
-    @NotNull
-    private LocalDateTime createDate = LocalDateTime.now() ;
-    private OrderStatus status;
-    private BusinessCode businessCode;
-    private LocalDateTime statusDate ;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "INVOICE_ID")
-    private Invoice invoice;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CUSTOMER_ID")
-    private Customer customer;
+public class OrderDto {
 
+    private Long orderId;
+    @NotBlank(message = "The Product field should not be Empty.")
+    private List<Product> product;
+    private LocalDateTime createDate = LocalDateTime.now();
+    private OrderStatus status = OrderStatus.INPROGRESS;
+    private BusinessCode businessCode = BusinessCode.SALE;
+    private LocalDateTime statusDate = LocalDateTime.now();
+    private Invoice invoice;
+    private Customer customer;
 
 
     public Long getOrderId() {
@@ -52,7 +43,9 @@ public class Order {
         return createDate;
     }
 
-
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
 
     public OrderStatus getStatus() {
         return status;

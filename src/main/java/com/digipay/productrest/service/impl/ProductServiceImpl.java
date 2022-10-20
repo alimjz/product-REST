@@ -1,11 +1,12 @@
-package com.digipay.productrest.service;
+package com.digipay.productrest.service.impl;
 
+import com.digipay.productrest.conf.mapper.ProductDtoMapper;
 import com.digipay.productrest.dto.ProductDto;
 import com.digipay.productrest.entity.Product;
 import com.digipay.productrest.repository.ProductRepository;
+import com.digipay.productrest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
@@ -14,20 +15,21 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository prodRepository;
+    private final ProductDtoMapper productMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository prodRepository) {
+    public ProductServiceImpl(ProductRepository prodRepository, ProductDtoMapper productMapper) {
         this.prodRepository = prodRepository;
+        this.productMapper = productMapper;
     }
 
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
     public Product saveProduct(@Valid ProductDto productDto) {
-        Product productEntity = getProductEntity(productDto);
-        return prodRepository.save(productEntity);
+        return prodRepository.save(productMapper.dtoToProductMapper(productDto));
     }
 
     @Override
@@ -41,17 +43,4 @@ public class ProductServiceImpl implements ProductService {
         return prodRepository.findById(id);
     }
 
-    private Product getProductEntity(ProductDto productDto) {
-
-        Product object = new Product();
-        object.setProdName(productDto.getProdName());
-        object.setProdCode(productDto.getProdCode());
-        object.setModel(productDto.getModel());
-        object.setBuyPrice(productDto.getBuyPrice());
-        object.setProdSubType(productDto.getProdSubType());
-        object.setProdType(productDto.getProdType());
-        object.setSellPrice(productDto.getSellPrice());
-        object.setBuyPrice(productDto.getBuyPrice());
-        return object;
-    }
 }
