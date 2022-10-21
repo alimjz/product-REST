@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.digipay.productrest.exception.ErrorConstants.DUPLICATE_CUSTOMER_REGISTRATION;
 import static com.digipay.productrest.exception.ErrorConstants.METHOD_NOT_ALLOWED;
 
 @RestControllerAdvice
@@ -38,6 +39,15 @@ public class ExceptionTranslator {
     public ResponseEntity<BaseResponse<Map<String,String>>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         Map<String, String> map = new HashMap<>();
         map.put(TITLE, METHOD_NOT_ALLOWED);
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(),
+                ApplicationConstants.BADREQUEST, map));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CustomerExistException.class)
+    public ResponseEntity<BaseResponse<Map<String,String>>> customerDuplicationHandler(CustomerExistException ex) {
+        Map<String, String> map = new HashMap<>();
+        map.put(TITLE, DUPLICATE_CUSTOMER_REGISTRATION);
         return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(),
                 ApplicationConstants.BADREQUEST, map));
     }

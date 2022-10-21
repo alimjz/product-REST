@@ -1,9 +1,11 @@
 package com.digipay.productrest.entity;
 
 import com.digipay.productrest.enums.AddressType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "TBL_ADDRESS")
@@ -12,13 +14,16 @@ public class Address {
     @Column(name = "ADDRESS_ID")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @JsonIgnore
     private String addressId;
+    @JsonIgnore
     private AddressType addressType;
     private String province;
     private String city;
     private String street;
 
     private String buildingNo;
+    @Size(min = 10,max = 10,message = "Postal code is not correct.")
     private String postalCode;
 
 

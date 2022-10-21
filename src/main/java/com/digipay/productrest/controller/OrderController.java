@@ -1,10 +1,8 @@
 package com.digipay.productrest.controller;
 
-import com.digipay.productrest.conf.ApplicationConstants;
 import com.digipay.productrest.dto.BaseResponse;
 import com.digipay.productrest.dto.OrderDto;
 import com.digipay.productrest.entity.Order;
-import com.digipay.productrest.entity.Product;
 import com.digipay.productrest.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import static com.digipay.productrest.conf.ApplicationConstants.SUCCESS;
+
 @RestController
 @RequestMapping("/api/v1/")
 public class OrderController {
@@ -30,11 +30,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @Operation(summary = "Creates new Order in system.")
+    @Operation(summary = "Create an Order for sale.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Insert an Order Instance",
+            @ApiResponse(responseCode = "201", description = SUCCESS,
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Product.class))}),
+                            schema = @Schema(implementation = Order.class))}),
             @ApiResponse(responseCode = "400", description = "Bad Request",
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
@@ -43,7 +43,7 @@ public class OrderController {
         Order savedOrder = orderService.createOrder(orderDto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedOrder.getOrderId())
                         .toUri()).
-                body(new BaseResponse<>(HttpStatus.CREATED.value(), ApplicationConstants.SUCCESS));
+                body(new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS));
     }
 
 }

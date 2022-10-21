@@ -1,5 +1,7 @@
 package com.digipay.productrest.dto;
 
+import com.digipay.productrest.entity.Invoice;
+
 public class InvoiceDto {
 
     private String invoiceId;
@@ -8,6 +10,16 @@ public class InvoiceDto {
     private Double discountPercent;
     private Double discountAmount;
     private Double payAbleAmount;
+
+    public static InvoiceDto calculateInvoice(double totalPrice, double totalTax, double discountPercent){
+        InvoiceDto invoiceDto=new InvoiceDto();
+        invoiceDto.setBaseFee(totalPrice);
+        invoiceDto.setTax( totalTax);
+        invoiceDto.setDiscountPercent(discountPercent);
+        invoiceDto.setDiscountAmount((totalPrice + totalTax) * discountPercent);
+        invoiceDto.setPayAbleAmount(totalPrice+totalTax- invoiceDto.getDiscountAmount());
+        return invoiceDto;
+    }
 
     public String getInvoiceId() {
         return invoiceId;

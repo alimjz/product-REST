@@ -1,16 +1,33 @@
 package com.digipay.productrest.dto;
 
 import com.digipay.productrest.entity.Contact;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class CustomerDto {
+    @JsonIgnore
     private String customerId;
+    @Size(max = 10,min = 10,message = "National Id should be 10 digits.")
+    @NotBlank(message = "National Id is mandatory.")
     private String nationalId;
+    @NotBlank(message = "First Name is mandatory.")
     private String firstName;
+    @NotBlank(message = "Last Name is mandatory.")
     private String lastName;
-    private String birthDate;
+    @Past(message = "Birth date is wrong.")
+    private LocalDate birthDate;
+    @NotBlank(message = "Certificate No is mandatory.")
     private String birthCertificateNo;
+    @NotBlank(message = "Birth place is mandatory.")
     private String birthPlace;
     private Contact contactInfo;
+
+    private LocalDateTime registerDate = LocalDateTime.now();
 
     public String getCustomerId() {
         return customerId;
@@ -44,11 +61,11 @@ public class CustomerDto {
         this.lastName = lastName;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

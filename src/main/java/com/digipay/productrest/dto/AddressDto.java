@@ -1,8 +1,12 @@
 package com.digipay.productrest.dto;
 
 import com.digipay.productrest.enums.AddressType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.Size;
 
 public class AddressDto {
+    @JsonIgnore
     private String addressId;
     private AddressType addressType;
     private String province;
@@ -10,6 +14,7 @@ public class AddressDto {
     private String street;
 
     private String buildingNo;
+    @Size(min = 10,max = 10,message = "Postal code is not correct.")
     private String postalCode;
 
     public String getAddressId() {

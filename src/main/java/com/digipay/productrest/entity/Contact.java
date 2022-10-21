@@ -1,8 +1,10 @@
 package com.digipay.productrest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "TBL_CONTACT")
@@ -11,9 +13,12 @@ public class Contact {
     @Column(name = "CONTACT_ID")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @JsonIgnore
     private String contactId;
+    @JsonIgnore
     private ContactType contactType;
     private String phoneNumber;
+    @Email(message = "The Email format is not correct.")
     private String email;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")

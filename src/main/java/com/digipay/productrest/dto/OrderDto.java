@@ -5,6 +5,7 @@ import com.digipay.productrest.entity.Invoice;
 import com.digipay.productrest.entity.Product;
 import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class OrderDto {
 
+    @JsonIgnore
     private Long orderId;
     @NotBlank(message = "The Product field should not be Empty.")
     private List<Product> product;
@@ -19,6 +21,7 @@ public class OrderDto {
     private OrderStatus status = OrderStatus.INPROGRESS;
     private BusinessCode businessCode = BusinessCode.SALE;
     private LocalDateTime statusDate = LocalDateTime.now();
+    @JsonIgnore
     private Invoice invoice;
     private Customer customer;
 

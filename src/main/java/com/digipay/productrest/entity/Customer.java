@@ -1,8 +1,14 @@
 package com.digipay.productrest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TBL_CUSTOMER")
@@ -11,16 +17,46 @@ public class Customer {
     @Column(name = "CUSTOMER_ID")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @JsonIgnore
     private String customerId;
+    @Column(name = "NATIONAL_ID",nullable = false,updatable = false,length = 10,unique = true)
+    @Size(max = 10,min = 10,message = "National Id should be 10 digits.")
+    @NotBlank(message = "National Id is mandatory.")
     private String nationalId;
+    @Column(name = "FIRST_NAME")
+    @NotBlank
     private String firstName;
+    @Column(name = "LAST_NAME")
     private String lastName;
-    private String birthDate;
+    @Column(name = "BIRTH_DATE")
+    @Past(message = "Birth date is wrong.")
+    private LocalDate birthDate;
+    @NotBlank(message = "Certificate No is mandatory.")
     private String birthCertificateNo;
+    @NotBlank(message = "Birth place is mandatory.")
     private String birthPlace;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "CONTACT_ID")
     private Contact contactInfo;
+
+    @ManyToOne
+    @JoinColumn(name = "order_order_id")
+    private Order order;
+
+    private LocalDateTime registerDate ;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    @PrePersist
+    public void setRegisterDate(){
+        this.registerDate = LocalDateTime.now();
+    }
 
     public String getCustomerId() {
         return customerId;
@@ -54,11 +90,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -2,6 +2,7 @@ package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.impl.OrderDtoMapperImpl;
 import com.digipay.productrest.dto.OrderDto;
+import com.digipay.productrest.entity.Invoice;
 import com.digipay.productrest.entity.Order;
 import com.digipay.productrest.repository.OrderRepository;
 import com.digipay.productrest.service.CustomerService;
@@ -36,10 +37,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createOrder(OrderDto orderDto) {
         Order order = orderMapper.dtoToOrderMapper(orderDto);
-        customerService.saveCustomer(order);
-        invoiceService.saveInvoice(order);
+        invoiceService.createInvoice(order.getProduct(),
+                orderRepository.countOrdersByCustomer_CustomerId(order.getCustomer().getCustomerId()));
         return orderRepository.save(order);
     }
+
+
 
     @Override
     public List<Order> queryAllOrders() {
@@ -50,5 +53,4 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> queryOrderById(Long id) {
         return orderRepository.findById(id);
     }
-
 }

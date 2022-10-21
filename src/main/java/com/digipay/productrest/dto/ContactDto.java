@@ -2,11 +2,16 @@ package com.digipay.productrest.dto;
 
 import com.digipay.productrest.entity.Address;
 import com.digipay.productrest.entity.ContactType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.Email;
 
 public class ContactDto {
+    @JsonIgnore
     private String contactId;
     private ContactType contactType;
     private String phoneNumber;
+    @Email(message = "The Email format is not correct.")
     private String email;
     private Address address;
 

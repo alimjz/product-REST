@@ -33,6 +33,18 @@ public class Product {
     @JoinColumn(name = "WAREHOUSE_ID")
     private Warehouse warehouse;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "order_order_id")
+    private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 
     public Long getProdId() {
         return prodId;
