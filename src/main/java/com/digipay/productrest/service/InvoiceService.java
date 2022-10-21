@@ -10,6 +10,7 @@ public interface InvoiceService {
 
     Invoice createInvoice(List<Product> products, int orderCount);
     Optional<Invoice> queryInvoice(String id);
+    Invoice calculateInvoice(List<Product> products, int orderCount);
 
 
 }

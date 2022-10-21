@@ -1,6 +1,7 @@
 package com.digipay.productrest.entity;
 
 import com.digipay.productrest.enums.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -31,19 +32,10 @@ public class Product {
     private String prodSubType;
     @OneToOne
     @JoinColumn(name = "WAREHOUSE_ID")
+    @JsonIgnore
     private Warehouse warehouse;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "order_order_id")
-    private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
 
     public Long getProdId() {

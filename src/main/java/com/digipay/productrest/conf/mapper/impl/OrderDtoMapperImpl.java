@@ -29,13 +29,13 @@ public class OrderDtoMapperImpl implements OrderDtoMapper {
         order1.setOrderId( order.getOrderId() );
         List<Product> list = order.getProduct();
         if ( list != null ) {
-            order1.setProduct( new ArrayList<Product>( list ) );
+//            order1.setProduct( new ArrayList<Product>( list ) );
         }
-        order1.setStatus( order.getStatus() );
+/*        order1.setStatus( order.getStatus() );
         order1.setBusinessCode( order.getBusinessCode() );
         order1.setStatusDate( order.getStatusDate() );
         order1.setInvoice( order.getInvoice() );
-        order1.setCustomer( order.getCustomer() );
+        order1.setCustomer( order.getCustomer() );*/
 
 
         return order1;
@@ -50,16 +50,18 @@ public class OrderDtoMapperImpl implements OrderDtoMapper {
         OrderDto orderDto1 = new OrderDto();
 
         orderDto1.setOrderId( orderDto.getOrderId() );
-        List<Product> list = orderDto.getProduct();
-        if ( list != null ) {
-            orderDto1.setProduct( new ArrayList<Product>( list ) );
-        }
+//        List<Product> list = orderDto.getProduct();
+//        if ( list != null ) {
+//            orderDto1.setProduct( new ArrayList<Product>( list ) );
+//        }
+/*
         orderDto1.setCreateDate( orderDto.getCreateDate() );
         orderDto1.setStatus( orderDto.getStatus() );
         orderDto1.setBusinessCode( orderDto.getBusinessCode() );
         orderDto1.setStatusDate( orderDto.getStatusDate() );
         orderDto1.setInvoice( orderDto.getInvoice() );
         orderDto1.setCustomer( orderDto.getCustomer() );
+*/
 
 
         return orderDto1;

@@ -1,9 +1,12 @@
 package com.digipay.productrest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ProductDto {
+    @JsonIgnore
     private Long prodId;
     @NotBlank(message = "The Prod Code should not blank.")
     private String prodCode;

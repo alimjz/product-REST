@@ -1,9 +1,11 @@
 package com.digipay.productrest.dto;
 
-import com.digipay.productrest.entity.Invoice;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 
+@ToString
 public class InvoiceDto {
-
+    @JsonIgnore
     private String invoiceId;
     private Double baseFee;
     private Double tax;
@@ -11,15 +13,6 @@ public class InvoiceDto {
     private Double discountAmount;
     private Double payAbleAmount;
 
-    public static InvoiceDto calculateInvoice(double totalPrice, double totalTax, double discountPercent){
-        InvoiceDto invoiceDto=new InvoiceDto();
-        invoiceDto.setBaseFee(totalPrice);
-        invoiceDto.setTax( totalTax);
-        invoiceDto.setDiscountPercent(discountPercent);
-        invoiceDto.setDiscountAmount((totalPrice + totalTax) * discountPercent);
-        invoiceDto.setPayAbleAmount(totalPrice+totalTax- invoiceDto.getDiscountAmount());
-        return invoiceDto;
-    }
 
     public String getInvoiceId() {
         return invoiceId;
@@ -68,4 +61,6 @@ public class InvoiceDto {
     public void setPayAbleAmount(Double payAbleAmount) {
         this.payAbleAmount = payAbleAmount;
     }
+
+
 }
