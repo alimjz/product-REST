@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "TBL_Orders")
@@ -17,14 +16,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long orderId;
-    @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL,orphanRemoval = true,mappedBy = "order")
-    private List<Product> product;
+    @OneToOne(cascade = CascadeType.ALL)
+    private SalesItem salesItem;
     @NotNull
     private LocalDateTime createDate ;
     private OrderStatus status;
     private BusinessCode businessCode;
     private LocalDateTime statusDate ;
-    @OneToOne(cascade = CascadeType.ALL,targetEntity = Invoice.class,mappedBy = "order")
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "INVOICE_ID")
     private Invoice invoice;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -35,6 +34,8 @@ public class Order {
     public void prePersistInitialize(){
         this.createDate = LocalDateTime.now();
         this.statusDate = LocalDateTime.now();
+        this.status = OrderStatus.ACKNOWLEDGE;
+        this.businessCode = BusinessCode.SALE;
     }
     @PostUpdate
     public void update(){
@@ -49,12 +50,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public List<Product> getProduct() {
-        return product;
+    public SalesItem getSalesItem() {
+        return salesItem;
     }
 
-    public void setProduct(List<Product> product) {
-        this.product = product;
+    public void setSalesItem(SalesItem salesItem) {
+        this.salesItem = salesItem;
     }
 
     public LocalDateTime getCreateDate() {

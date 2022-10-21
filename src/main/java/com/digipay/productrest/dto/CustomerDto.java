@@ -27,7 +27,6 @@ public class CustomerDto {
     private String birthPlace;
     private Contact contactInfo;
 
-    private LocalDateTime registerDate = LocalDateTime.now();
 
     public String getCustomerId() {
         return customerId;

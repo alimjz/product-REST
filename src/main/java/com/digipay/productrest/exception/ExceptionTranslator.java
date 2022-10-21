@@ -10,12 +10,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.webjars.NotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.digipay.productrest.exception.ErrorConstants.DUPLICATE_CUSTOMER_REGISTRATION;
-import static com.digipay.productrest.exception.ErrorConstants.METHOD_NOT_ALLOWED;
+import static com.digipay.productrest.exception.ErrorConstants.*;
 
 @RestControllerAdvice
 public class ExceptionTranslator {
@@ -51,4 +51,14 @@ public class ExceptionTranslator {
         return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(),
                 ApplicationConstants.BADREQUEST, map));
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<BaseResponse<Map<String,String>>> elementNotFound(NotFoundException ex) {
+        Map<String, String> map = new HashMap<>();
+        map.put(TITLE,NOT_FOUND);
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(),
+                NOT_FOUND, map));
+    }
+
 }

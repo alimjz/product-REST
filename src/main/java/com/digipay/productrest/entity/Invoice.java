@@ -18,17 +18,7 @@ public class Invoice {
     private Double discountAmount;
     private Double payAbleAmount;
 
-    @OneToOne
-    @JoinColumn(name = "order_order_id")
-    private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public String getInvoiceId() {
         return invoiceId;

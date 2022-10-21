@@ -1,6 +1,7 @@
 package com.digipay.productrest.entity;
 
 import com.digipay.productrest.enums.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,26 +26,39 @@ public class Product {
     @NotNull(message = "The Product sellPrice should not be null or Empty.")
     private Double sellPrice;
     @Column(name = "STATUS")
-    private ProductStatus status = ProductStatus.AVAILABLE;
+    private ProductStatus status ;
     private String model;
     private String prodType;
     private String prodSubType;
     @OneToOne
     @JoinColumn(name = "WAREHOUSE_ID")
+    @JsonIgnore
     private Warehouse warehouse;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "order_order_id")
-    private Order order;
+    @Column(name = "QUANTITY")
+    private int quants;
 
-    public Order getOrder() {
-        return order;
+
+    @PrePersist
+    public void initialize(){
+        this.status = ProductStatus.AVAILABLE;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public int getQuants() {
+        return quants;
     }
 
+    public ProductStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProductStatus status) {
+        this.status = status;
+    }
+
+    public void setQuants(int quants) {
+        this.quants = quants;
+    }
 
     public Long getProdId() {
         return prodId;

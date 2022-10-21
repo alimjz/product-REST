@@ -39,7 +39,7 @@ public class OrderController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
     @PostMapping("/orders/")
-    public ResponseEntity<BaseResponse<Order>> createOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<BaseResponse<Order>> createOrder(@RequestBody OrderDto orderDto) {
         Order savedOrder = orderService.createOrder(orderDto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedOrder.getOrderId())
                         .toUri()).

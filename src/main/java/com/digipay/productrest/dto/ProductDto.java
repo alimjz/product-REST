@@ -1,9 +1,13 @@
 package com.digipay.productrest.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class ProductDto {
+    @JsonIgnore
     private Long prodId;
     @NotBlank(message = "The Prod Code should not blank.")
     private String prodCode;
@@ -16,6 +20,11 @@ public class ProductDto {
     private String model;
     private String prodType;
     private String prodSubType;
+    @Min(1)
+    private Integer quants;
+
+    private String warehouseId;// TODO: 10/23/2022 check the warehouse exists.
+
 
 
     public Long getProdId() {
@@ -80,5 +89,21 @@ public class ProductDto {
 
     public void setProdSubType(String prodSubType) {
         this.prodSubType = prodSubType;
+    }
+
+    public String getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    public Integer getQuants() {
+        return quants;
+    }
+
+    public void setQuants(Integer quants) {
+        this.quants = quants;
     }
 }

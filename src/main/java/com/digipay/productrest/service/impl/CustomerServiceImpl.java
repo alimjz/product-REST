@@ -3,10 +3,12 @@ package com.digipay.productrest.service.impl;
 import com.digipay.productrest.conf.mapper.CustomerDtoMapper;
 import com.digipay.productrest.dto.CustomerDto;
 import com.digipay.productrest.entity.Customer;
+import com.digipay.productrest.exception.ErrorConstants;
 import com.digipay.productrest.repository.CustomerRepository;
 import com.digipay.productrest.service.CustomerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Optional<Customer> findCustomerById(String id){
-        return customerRepository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isPresent()){
+            return customer;
+        }
+        throw new NotFoundException(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 }

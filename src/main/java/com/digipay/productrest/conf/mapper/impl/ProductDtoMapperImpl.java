@@ -31,6 +31,7 @@ public class ProductDtoMapperImpl implements ProductDtoMapper {
         product.setModel( productDto.getModel() );
         product.setProdType( productDto.getProdType() );
         product.setProdSubType( productDto.getProdSubType() );
+        product.setQuants(productDto.getQuants());
 
         return product;
     }

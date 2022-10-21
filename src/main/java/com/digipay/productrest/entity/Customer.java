@@ -39,19 +39,11 @@ public class Customer {
     @JoinColumn(name = "CONTACT_ID")
     private Contact contactInfo;
 
-    @ManyToOne
-    @JoinColumn(name = "order_order_id")
-    private Order order;
+
 
     private LocalDateTime registerDate ;
 
-    public Order getOrder() {
-        return order;
-    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     @PrePersist
     public void setRegisterDate(){
@@ -120,5 +112,13 @@ public class Customer {
 
     public void setContactInfo(Contact contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public LocalDateTime getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(LocalDateTime registerDate) {
+        this.registerDate = registerDate;
     }
 }
