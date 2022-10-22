@@ -22,12 +22,9 @@ import java.util.Optional;
 @Transactional
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-
     private final InvoiceService invoiceService;
     private final CustomerService customerService;
-
     private final ProductService productService;
-
     private final OrderDtoMapper orderDtoMapper;
 
 
