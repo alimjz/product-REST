@@ -1,61 +1,52 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "TBL_Orders")
 public class Order {
     @Id
     @Column(name = "ORDER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @JsonIgnore
-    private Long orderId;
-    @OneToOne(cascade = CascadeType.ALL)
-    private SalesItem salesItem;
+    private String orderId;
+
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "order_order_ID")
+    private List<SalesItem> salesItem;
     @NotNull
-    private LocalDateTime createDate ;
+    private LocalDateTime createDate;
     private OrderStatus status;
     private BusinessCode businessCode;
-    private LocalDateTime statusDate ;
+    private LocalDateTime statusDate;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "INVOICE_ID")
     private Invoice invoice;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
     @PrePersist
-    public void prePersistInitialize(){
+    public void prePersistInitialize() {
         this.createDate = LocalDateTime.now();
         this.statusDate = LocalDateTime.now();
         this.status = OrderStatus.ACKNOWLEDGE;
         this.businessCode = BusinessCode.SALE;
     }
+
     @PostUpdate
-    public void update(){
+    public void update() {
         this.statusDate = LocalDateTime.now();
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public SalesItem getSalesItem() {
-        return salesItem;
-    }
-
-    public void setSalesItem(SalesItem salesItem) {
-        this.salesItem = salesItem;
     }
 
     public LocalDateTime getCreateDate() {
@@ -63,6 +54,13 @@ public class Order {
     }
 
 
+    public List<SalesItem> getSalesItem() {
+        return salesItem;
+    }
+
+    public void setSalesItem(List<SalesItem> salesItem) {
+        this.salesItem = salesItem;
+    }
 
     public OrderStatus getStatus() {
         return status;
@@ -104,5 +102,11 @@ public class Order {
         this.customer = customer;
     }
 
+    public String getOrderId() {
+        return orderId;
+    }
 
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 }

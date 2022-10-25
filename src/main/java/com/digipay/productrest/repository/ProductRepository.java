@@ -1,6 +1,9 @@
 package com.digipay.productrest.repository;
 
-import com.digipay.productrest.entity.Product;
+import com.digipay.productrest.model.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +12,14 @@ import java.util.Set;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findAllByProdIdIn(Set<Long> productIds);
+    List<Product> findAllByProdIdInAndQuantsIsNot(Set<Long> productIds, int quantity);
+
+    @Override
+    Page<Product> findAll(Pageable pageable);
+
+    @Override
+    List<Product> findAll(Sort sort);
+
+    @Override
+    List<Product> findAll();
 }

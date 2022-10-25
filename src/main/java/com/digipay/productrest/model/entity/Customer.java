@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,11 +16,11 @@ public class Customer {
     @Id
     @Column(name = "CUSTOMER_ID")
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @JsonIgnore
     private String customerId;
-    @Column(name = "NATIONAL_ID",nullable = false,updatable = false,length = 10,unique = true)
-    @Size(max = 10,min = 10,message = "National Id should be 10 digits.")
+    @Column(name = "NATIONAL_ID", nullable = false, updatable = false, length = 10, unique = true)
+    @Size(max = 10, min = 10, message = "National Id should be 10 digits.")
     @NotBlank(message = "National Id is mandatory.")
     private String nationalId;
     @Column(name = "FIRST_NAME")
@@ -40,13 +40,11 @@ public class Customer {
     private Contact contactInfo;
 
 
-
-    private LocalDateTime registerDate ;
-
+    private LocalDateTime registerDate;
 
 
     @PrePersist
-    public void setRegisterDate(){
+    public void setRegisterDate() {
         this.registerDate = LocalDateTime.now();
     }
 

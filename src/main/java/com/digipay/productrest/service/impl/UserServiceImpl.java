@@ -1,8 +1,8 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.UserDtoMapper;
-import com.digipay.productrest.dto.UserDto;
-import com.digipay.productrest.entity.User;
+import com.digipay.productrest.model.dto.UserDto;
+import com.digipay.productrest.model.entity.User;
 import com.digipay.productrest.repository.UserRepository;
 import com.digipay.productrest.service.UserService;
 import org.springframework.stereotype.Service;

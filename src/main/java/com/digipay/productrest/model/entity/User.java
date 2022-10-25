@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,7 +10,7 @@ public class User {
     @Id
     @Column(name = "USER_ID")
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String userId;
     private String userName;
     private String userLastName;

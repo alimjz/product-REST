@@ -1,4 +1,4 @@
-package com.digipay.productrest.dto;
+package com.digipay.productrest.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;

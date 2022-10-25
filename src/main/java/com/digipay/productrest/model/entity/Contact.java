@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,7 +12,7 @@ public class Contact {
     @Id
     @Column(name = "CONTACT_ID")
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @JsonIgnore
     private String contactId;
     @JsonIgnore

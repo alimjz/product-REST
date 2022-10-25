@@ -1,18 +1,17 @@
-package com.digipay.productrest.dto;
+package com.digipay.productrest.model.dto;
 
-import com.digipay.productrest.entity.Contact;
+import com.digipay.productrest.model.entity.Contact;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class CustomerDto {
     @JsonIgnore
     private String customerId;
-    @Size(max = 10,min = 10,message = "National Id should be 10 digits.")
+    @Size(max = 10, min = 10, message = "National Id should be 10 digits.")
     @NotBlank(message = "National Id is mandatory.")
     private String nationalId;
     @NotBlank(message = "First Name is mandatory.")

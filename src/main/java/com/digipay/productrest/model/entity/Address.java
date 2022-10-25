@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import com.digipay.productrest.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +13,7 @@ public class Address {
     @Id
     @Column(name = "ADDRESS_ID")
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @JsonIgnore
     private String addressId;
     @JsonIgnore
@@ -23,9 +23,8 @@ public class Address {
     private String street;
 
     private String buildingNo;
-    @Size(min = 10,max = 10,message = "Postal code is not correct.")
+    @Size(min = 10, max = 10, message = "Postal code is not correct.")
     private String postalCode;
-
 
 
     public String getAddressId() {

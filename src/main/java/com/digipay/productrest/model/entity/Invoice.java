@@ -1,4 +1,4 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,14 +10,13 @@ public class Invoice {
     @Id
     @Column(name = "INVOICE_ID")
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String invoiceId;
     private Double baseFee;
     private Double tax;
     private Double discountPercent;
     private Double discountAmount;
     private Double payAbleAmount;
-
 
 
     public String getInvoiceId() {

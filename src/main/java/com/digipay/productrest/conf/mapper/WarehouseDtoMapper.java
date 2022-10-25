@@ -1,7 +1,7 @@
 package com.digipay.productrest.conf.mapper;
 
-import com.digipay.productrest.dto.WarehouseDto;
-import com.digipay.productrest.entity.Warehouse;
+import com.digipay.productrest.model.dto.WarehouseDto;
+import com.digipay.productrest.model.entity.Warehouse;
 
 //@Mapper(componentModel = "spring")
 public interface WarehouseDtoMapper {

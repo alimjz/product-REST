@@ -1,9 +1,11 @@
 package com.digipay.productrest.controller;
 
 import com.digipay.productrest.conf.ApplicationConstants;
-import com.digipay.productrest.dto.BaseResponse;
-import com.digipay.productrest.dto.CustomerDto;
-import com.digipay.productrest.entity.Customer;
+import com.digipay.productrest.exception.CustomerNotFoundException;
+import com.digipay.productrest.exception.ErrorConstants;
+import com.digipay.productrest.model.dto.BaseResponse;
+import com.digipay.productrest.model.dto.CustomerDto;
+import com.digipay.productrest.model.entity.Customer;
 import com.digipay.productrest.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,6 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +46,7 @@ public class CustomerController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = AUTHENTICATION, content = @Content)})
     @PostMapping("/customers")
-    public ResponseEntity<BaseResponse<Customer>> createCustomer(@RequestBody @Valid CustomerDto customerDto){
+    public ResponseEntity<BaseResponse<Customer>> createCustomer(@RequestBody @Valid CustomerDto customerDto) {
         Customer customer = customerService.registerCustomer(customerDto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(customer.getCustomerId())
                 .toUri()).body(new BaseResponse<>(HttpStatus.CREATED.value(),
@@ -57,14 +62,11 @@ public class CustomerController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = AUTHENTICATION, content = @Content)})
     @GetMapping("/customers")
-    public ResponseEntity<BaseResponse<List<Customer>>> findAllCustomers() {
-        List<Customer> customerList = customerService.findAllCustomers();
-        if (customerList.isEmpty()) {
-            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), ApplicationConstants.NO_CONTENT,
-                    null, null));
-        }
-        return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), FOUND,
-                null, customerList));
+    public ResponseEntity<BaseResponse<List<Customer>>>
+    findAllCustomers(@PageableDefault(sort = "nationalId") Pageable pageable) {
+        Page<Customer> customerList = customerService.findAllCustomers(pageable);
+        return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), SUCCESS,
+                null, customerList.getContent(),customerList.getPageable()));
     }
 
     @Operation(summary = "Query customer by NationalId.")
@@ -99,8 +101,7 @@ public class CustomerController {
     public ResponseEntity<BaseResponse<Optional<Customer>>> findCustomerById(@PathVariable String id) {
         Optional<Customer> customer = customerService.findCustomerById(id);
         if (!customer.isPresent()) {
-            return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.NOT_FOUND.value(), ApplicationConstants.NO_CONTENT,
-                    null, null));
+            throw new CustomerNotFoundException(ErrorConstants.CUSTOMER_NOT_FOUND);
         }
         return ResponseEntity.ok().body(new BaseResponse<>(HttpStatus.OK.value(), FOUND,
                 null, customer));

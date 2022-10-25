@@ -1,8 +1,8 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.AddressDtoMapper;
-import com.digipay.productrest.dto.AddressDto;
-import com.digipay.productrest.entity.Address;
+import com.digipay.productrest.model.dto.AddressDto;
+import com.digipay.productrest.model.entity.Address;
 import com.digipay.productrest.repository.AddressRepository;
 import com.digipay.productrest.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;

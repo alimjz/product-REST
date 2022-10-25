@@ -1,15 +1,15 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.ProductDtoMapper;
-import com.digipay.productrest.dto.ProductDto;
-import com.digipay.productrest.entity.Product;
-import com.digipay.productrest.exception.ErrorConstants;
+import com.digipay.productrest.model.dto.ProductDto;
+import com.digipay.productrest.model.entity.Product;
 import com.digipay.productrest.repository.ProductRepository;
 import com.digipay.productrest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -32,14 +32,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product saveProduct(@Valid ProductDto productDto) {
+    public Product stockInProducts(@Valid ProductDto productDto) {
         return prodRepository.save(productMapper.dtoToProductMapper(productDto));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Product> findAllProductsList() {
-        return prodRepository.findAll();
+    public Page<Product> findAllProductsList(Pageable pageable) {
+        return prodRepository.findAll(pageable);
     }
 
     @Override
@@ -50,32 +50,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> findProductsByProductIds(Set<Long> productsId) {
-        List<Product> productList = prodRepository.findAllByProdIdIn(productsId);
-        if (!productList.isEmpty() && zeroQuantsCheck(productList)) {
-                return deductQuants(productList);
-        }
-        throw new NotFoundException(ErrorConstants.PRODUCT_NOT_FOUND);
+    public List<Product> findNonZeroQuantsProducts(Set<Long> productsId) {
+        return deductQuantsByCount(prodRepository.findAllByProdIdInAndQuantsIsNot(productsId, 0),1);
     }
 
 
-    private List<Product> deductQuants(List<Product> productList) {
+    private List<Product> deductQuantsByCount(List<Product> productList, int count) {// TODO: 10/25/2022 will refactor
         List<Product> deductedQuantsProductList = new ArrayList<>();
         for (Product product : productList) {
-            product.setQuants(product.getQuants() - 1);
+            product.setQuants(product.getQuants() - count);
             deductedQuantsProductList.add(product);
         }
         return deductedQuantsProductList;
-    }
-
-    private boolean zeroQuantsCheck(List<Product> products) {
-        List<Product> productZeroQuantList = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getQuants() == 0) {
-                productZeroQuantList.add(product);
-            }
-        }
-        return productZeroQuantList.isEmpty();
     }
 
 }

@@ -1,14 +1,14 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.CustomerDtoMapper;
-import com.digipay.productrest.dto.CustomerDto;
-import com.digipay.productrest.entity.Customer;
-import com.digipay.productrest.exception.ErrorConstants;
+import com.digipay.productrest.model.dto.CustomerDto;
+import com.digipay.productrest.model.entity.Customer;
 import com.digipay.productrest.repository.CustomerRepository;
 import com.digipay.productrest.service.CustomerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,20 +28,17 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer registerCustomer(CustomerDto customerDto) {
         return customerRepository.save(customerMapper.dtoToCustomerMapper(customerDto));
     }
+
     @Override
-    public List<Customer> findAllCustomers(){
-        return customerRepository.findAll();
+    public Page<Customer> findAllCustomers(Pageable pageable) {
+        return customerRepository.findAll(pageable);
     }
 
-    public Optional<Customer> findCustomerByCertificate(String id){
+    public Optional<Customer> findCustomerByCertificate(String id) {
         return customerRepository.findByNationalId(id);
     }
 
-    public Optional<Customer> findCustomerById(String id){
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (customer.isPresent()){
-            return customer;
-        }
-        throw new NotFoundException(ErrorConstants.CUSTOMER_NOT_FOUND);
+    public Optional<Customer> findCustomerById(String id) {
+        return customerRepository.findById(id);
     }
 }

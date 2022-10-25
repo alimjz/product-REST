@@ -1,7 +1,7 @@
-package com.digipay.productrest.dto;
+package com.digipay.productrest.model.dto;
 
-import com.digipay.productrest.entity.Contact;
-import com.digipay.productrest.entity.Role;
+import com.digipay.productrest.model.entity.Contact;
+import com.digipay.productrest.model.entity.Role;
 
 public class UserDto {
     private String userId;

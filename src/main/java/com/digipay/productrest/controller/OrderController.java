@@ -1,8 +1,8 @@
 package com.digipay.productrest.controller;
 
-import com.digipay.productrest.dto.BaseResponse;
-import com.digipay.productrest.dto.OrderDto;
-import com.digipay.productrest.entity.Order;
+import com.digipay.productrest.model.dto.BaseResponse;
+import com.digipay.productrest.model.dto.OrderDto;
+import com.digipay.productrest.model.entity.Order;
 import com.digipay.productrest.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +40,7 @@ public class OrderController {
             @ApiResponse(responseCode = "401", description = "Security Basic Auth needed", content = @Content)})
     @PostMapping("/orders/")
     public ResponseEntity<BaseResponse<Order>> createOrder(@RequestBody OrderDto orderDto) {
-        Order savedOrder = orderService.createOrder(orderDto);
+        Order savedOrder = orderService.createSalesOrder(orderDto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedOrder.getOrderId())
                         .toUri()).
                 body(new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS));

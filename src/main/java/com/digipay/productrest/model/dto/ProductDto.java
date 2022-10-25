@@ -1,64 +1,30 @@
-package com.digipay.productrest.entity;
+package com.digipay.productrest.model.dto;
 
-import com.digipay.productrest.enums.ProductStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "TBL_PRODUCT")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROD_ID")
+public class ProductDto {
+    @JsonIgnore
     private Long prodId;
-
-    @NotBlank(message = "The Prod Code should not be null or Empty.")
+    @NotBlank(message = "The Prod Code should not blank.")
     private String prodCode;
-
-    @NotBlank(message = "The Product Name should not be null or Empty.")
+    @NotBlank(message = "The Product Name should not blank.")
     private String prodName;
-
-    @NotNull(message = "The Product buyPrice should not be null or Empty.")
+    @NotNull(message = "The Sell Price Should not be Null or Empty.")
     private Double buyPrice;
-    @NotNull(message = "The Product sellPrice should not be null or Empty.")
+    @NotNull(message = "The Sell Price Should not be Null or Empty.")
     private Double sellPrice;
-    @Column(name = "STATUS")
-    private ProductStatus status ;
     private String model;
     private String prodType;
     private String prodSubType;
-    @OneToOne
-    @JoinColumn(name = "WAREHOUSE_ID")
-    @JsonIgnore
-    private Warehouse warehouse;
+    @Min(1)
+    private Integer quants;
 
-    @Column(name = "QUANTITY")
-    private int quants;
+    private String warehouseId;// TODO: 10/23/2022 check the warehouse exists.
 
-
-    @PrePersist
-    public void initialize(){
-        this.status = ProductStatus.AVAILABLE;
-    }
-
-    public int getQuants() {
-        return quants;
-    }
-
-    public ProductStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProductStatus status) {
-        this.status = status;
-    }
-
-    public void setQuants(int quants) {
-        this.quants = quants;
-    }
 
     public Long getProdId() {
         return prodId;
@@ -124,11 +90,19 @@ public class Product {
         this.prodSubType = prodSubType;
     }
 
-    public Warehouse getWarehouse() {
-        return warehouse;
+    public String getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    public Integer getQuants() {
+        return quants;
+    }
+
+    public void setQuants(Integer quants) {
+        this.quants = quants;
     }
 }

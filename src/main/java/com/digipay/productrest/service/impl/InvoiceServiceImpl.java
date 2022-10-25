@@ -1,9 +1,10 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.InvoiceDtoMapper;
-import com.digipay.productrest.dto.InvoiceDto;
-import com.digipay.productrest.entity.Invoice;
-import com.digipay.productrest.entity.Product;
+import com.digipay.productrest.model.dto.InvoiceDto;
+import com.digipay.productrest.model.entity.Invoice;
+import com.digipay.productrest.model.entity.Product;
+import com.digipay.productrest.repository.OrderRepository;
 import com.digipay.productrest.service.InvoiceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,37 +23,40 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceDtoMapper invoiceMapper;
 
 
+    private final OrderRepository orderRepository;
+
 
     @Autowired
-    public InvoiceServiceImpl(InvoiceDtoMapper invoiceMapper) {
+    public InvoiceServiceImpl(InvoiceDtoMapper invoiceMapper, OrderRepository orderRepository) {
         this.invoiceMapper = invoiceMapper;
+        this.orderRepository = orderRepository;
     }
 
     @Override
-    public Invoice calculateInvoice(List<Product> products, int orderCount) {
+    public Invoice calculateInvoice(List<Product> products, String customerId) {
         double totalPrice = 0;
         double totalTax = 0;
-        double discountPercent = calculateDiscount(orderCount);
+        double discountPercent = calculateDiscount(orderRepository.countOrdersByCustomer_CustomerId(customerId));
         for (Product product :
                 products) {
-            totalPrice+= product.getSellPrice();
-            totalTax+= (product.getSellPrice()* TAX_RATE);
+            totalPrice += product.getSellPrice();
+            totalTax += (product.getSellPrice() * TAX_RATE);
         }
 
-        InvoiceDto invoiceDto=new InvoiceDto();
+        InvoiceDto invoiceDto = new InvoiceDto();
         invoiceDto.setBaseFee(totalPrice);
-        invoiceDto.setTax( totalTax);
+        invoiceDto.setTax(totalTax);
         invoiceDto.setDiscountPercent(discountPercent);
         invoiceDto.setDiscountAmount((totalPrice + totalTax) * discountPercent);
-        invoiceDto.setPayAbleAmount(totalPrice+totalTax- invoiceDto.getDiscountAmount());
+        invoiceDto.setPayAbleAmount(totalPrice + totalTax - invoiceDto.getDiscountAmount());
         log.info(invoiceDto.toString());
         return invoiceMapper.dtoToInvoiceMapper(invoiceDto);
 
     }
 
     @Override
-    public Invoice createInvoice(List<Product> products, int orderCount) {
-        return calculateInvoice(products,orderCount);
+    public Invoice calculateInvoiceForSales(List<Product> products, String customerId) {
+        return calculateInvoice(products, customerId);
     }
 
     @Override
@@ -60,10 +64,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         return Optional.empty();
     }
 
-    private Double calculateDiscount(int orderCount){
+    private Double calculateDiscount(int orderCount) {
         if (orderCount <= 5)
             return 0D;
-        else if(orderCount> 6 && orderCount < 11)
+        else if (orderCount > 6 && orderCount < 11)
             return 0.03D;
         else
             return 0.05D;

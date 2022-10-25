@@ -1,4 +1,4 @@
-package com.digipay.productrest.dto;
+package com.digipay.productrest.model.dto;
 
 import com.digipay.productrest.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +14,7 @@ public class AddressDto {
     private String street;
 
     private String buildingNo;
-    @Size(min = 10,max = 10,message = "Postal code is not correct.")
+    @Size(min = 10, max = 10, message = "Postal code is not correct.")
     private String postalCode;
 
     public String getAddressId() {

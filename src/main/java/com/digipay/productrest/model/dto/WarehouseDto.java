@@ -1,6 +1,6 @@
-package com.digipay.productrest.dto;
+package com.digipay.productrest.model.dto;
 
-import com.digipay.productrest.entity.Address;
+import com.digipay.productrest.model.entity.Address;
 
 public class WarehouseDto {
     private String warehouseId;

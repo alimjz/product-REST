@@ -1,7 +1,7 @@
 package com.digipay.productrest.conf.mapper;
 
-import com.digipay.productrest.dto.UserDto;
-import com.digipay.productrest.entity.User;
+import com.digipay.productrest.model.dto.UserDto;
+import com.digipay.productrest.model.entity.User;
 
 //@Mapper(componentModel = "spring")
 public interface UserDtoMapper {

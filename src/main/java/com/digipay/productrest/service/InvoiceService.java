@@ -1,16 +1,18 @@
 package com.digipay.productrest.service;
 
-import com.digipay.productrest.entity.Invoice;
-import com.digipay.productrest.entity.Product;
+import com.digipay.productrest.model.entity.Invoice;
+import com.digipay.productrest.model.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface InvoiceService {
 
-    Invoice createInvoice(List<Product> products, int orderCount);
+    Invoice calculateInvoiceForSales(List<Product> products, String customerId);
+
     Optional<Invoice> queryInvoice(String id);
-    Invoice calculateInvoice(List<Product> products, int orderCount);
+
+    Invoice calculateInvoice(List<Product> products, String customerId);
 
 
 }

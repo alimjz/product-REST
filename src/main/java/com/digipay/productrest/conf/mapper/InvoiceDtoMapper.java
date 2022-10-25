@@ -1,7 +1,7 @@
 package com.digipay.productrest.conf.mapper;
 
-import com.digipay.productrest.dto.InvoiceDto;
-import com.digipay.productrest.entity.Invoice;
+import com.digipay.productrest.model.dto.InvoiceDto;
+import com.digipay.productrest.model.entity.Invoice;
 
 //@Mapper(componentModel = "spring")
 public interface InvoiceDtoMapper {
