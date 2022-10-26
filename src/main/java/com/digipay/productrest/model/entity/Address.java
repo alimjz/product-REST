@@ -16,7 +16,7 @@ public class Address {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @JsonIgnore
     private String addressId;
-    @JsonIgnore
+
     private AddressType addressType;
     private String province;
     private String city;

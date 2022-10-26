@@ -5,7 +5,7 @@ import com.digipay.productrest.model.entity.Customer;
 
 //@Mapper(componentModel = "spring")
 public interface CustomerDtoMapper {
-    Customer dtoToCustomerMapper(CustomerDto addressDto);
+    Customer dtoToCustomerMapper(CustomerDto customerDto);
 
-    CustomerDto customerToDtoMapper(Customer address);
+    CustomerDto customerToDtoMapper(Customer customer);
 }

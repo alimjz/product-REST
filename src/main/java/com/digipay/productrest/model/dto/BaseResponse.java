@@ -1,9 +1,11 @@
 package com.digipay.productrest.model.dto;
 
+import lombok.Data;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Map;
 
+@Data
 public class BaseResponse<T> {
 
     private int status;
@@ -37,43 +39,4 @@ public class BaseResponse<T> {
         this.pageable = pageable;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Map<String, String> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(Map<String, String> errors) {
-        this.errors = errors;
-    }
-
-    public T getResponse() {
-        return response;
-    }
-
-    public void setResponse(T response) {
-        this.response = response;
-    }
-
-    public Pageable getPageable() {
-        return pageable;
-    }
-
-    public void setPageable(Pageable pageable) {
-        this.pageable = pageable;
-    }
 }

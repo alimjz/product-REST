@@ -17,7 +17,7 @@ public class OrderDtoMapperImpl implements OrderDtoMapper {
 
     @Override
     public Order convertDtoToOrder(OrderDto order, List<Product> products, Optional<Customer> customer,
-                                   Invoice invoice) {
+                                   Invoice invoice, BusinessCode businessCode) {
         if (order == null) {
             return null;
         }
@@ -27,6 +27,7 @@ public class OrderDtoMapperImpl implements OrderDtoMapper {
         orderObj.setInvoice(invoice);
         orderObj.setBusinessCode(BusinessCode.SALE);
         orderObj.setStatus(OrderStatus.ACKNOWLEDGE);
+        orderObj.setBusinessCode(businessCode);
         return orderObj;
     }
 

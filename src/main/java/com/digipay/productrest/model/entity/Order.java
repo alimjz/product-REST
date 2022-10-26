@@ -3,6 +3,7 @@ package com.digipay.productrest.model.entity;
 import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,13 +24,14 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "order_order_ID")
+    @JsonManagedReference
     private List<SalesItem> salesItem;
     @NotNull
     private LocalDateTime createDate;
     private OrderStatus status;
     private BusinessCode businessCode;
     private LocalDateTime statusDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "INVOICE_ID")
     private Invoice invoice;
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -41,7 +43,6 @@ public class Order {
         this.createDate = LocalDateTime.now();
         this.statusDate = LocalDateTime.now();
         this.status = OrderStatus.ACKNOWLEDGE;
-        this.businessCode = BusinessCode.SALE;
     }
 
     @PostUpdate

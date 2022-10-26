@@ -19,6 +19,7 @@ public class Warehouse {
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
+
     public String getWarehouseId() {
         return warehouseId;
     }

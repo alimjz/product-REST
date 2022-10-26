@@ -1,5 +1,6 @@
 package com.digipay.productrest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ public class Invoice {
     @Column(name = "INVOICE_ID")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @JsonIgnore
     private String invoiceId;
     private Double baseFee;
     private Double tax;

@@ -1,7 +1,11 @@
 package com.digipay.productrest.conf.mapper.impl;
 
 import com.digipay.productrest.conf.mapper.CustomerDtoMapper;
+import com.digipay.productrest.enums.AddressType;
 import com.digipay.productrest.model.dto.CustomerDto;
+import com.digipay.productrest.model.entity.Address;
+import com.digipay.productrest.model.entity.Contact;
+import com.digipay.productrest.model.entity.ContactType;
 import com.digipay.productrest.model.entity.Customer;
 import org.springframework.stereotype.Component;
 
@@ -16,22 +20,36 @@ import javax.annotation.Generated;
 public class CustomerDtoMapperImpl implements CustomerDtoMapper {
 
     @Override
-    public Customer dtoToCustomerMapper(CustomerDto addressDto) {
-        if (addressDto == null) {
+    public Customer dtoToCustomerMapper(CustomerDto customerDto) {
+        if (customerDto == null) {
             return null;
         }
 
+        Address address = new Address();
+        address.setAddressType(AddressType.CUSTOMER);
+        address.setProvince(customerDto.getContactInfo().getAddress().getProvince());
+        address.setCity(customerDto.getContactInfo().getAddress().getCity());
+        address.setStreet(customerDto.getContactInfo().getAddress().getStreet());
+        address.setBuildingNo(customerDto.getContactInfo().getAddress().getBuildingNo());
+        address.setPostalCode(customerDto.getContactInfo().getAddress().getPostalCode());
+
+        Contact contact = new Contact();
+        contact.setContactType(ContactType.CUSTOMER);
+        contact.setEmail(customerDto.getContactInfo().getEmail());
+        contact.setPhoneNumber(customerDto.getContactInfo().getPhoneNumber());
+        contact.setAddress(address);
+
+
         Customer customer = new Customer();
 
-        customer.setCustomerId(addressDto.getCustomerId());
-        customer.setNationalId(addressDto.getNationalId());
-        customer.setFirstName(addressDto.getFirstName());
-        customer.setLastName(addressDto.getLastName());
-        customer.setBirthDate(addressDto.getBirthDate());
-        customer.setBirthCertificateNo(addressDto.getBirthCertificateNo());
-        customer.setBirthPlace(addressDto.getBirthPlace());
-        customer.setContactInfo(addressDto.getContactInfo());
-
+        customer.setCustomerId(customerDto.getCustomerId());
+        customer.setNationalId(customerDto.getNationalId());
+        customer.setFirstName(customerDto.getFirstName());
+        customer.setLastName(customerDto.getLastName());
+        customer.setBirthDate(customerDto.getBirthDate());
+        customer.setBirthCertificateNo(customerDto.getBirthCertificateNo());
+        customer.setBirthPlace(customerDto.getBirthPlace());
+        customer.setContactInfo(contact);
         return customer;
     }
 
@@ -50,7 +68,7 @@ public class CustomerDtoMapperImpl implements CustomerDtoMapper {
         customerDto.setBirthDate(address.getBirthDate());
         customerDto.setBirthCertificateNo(address.getBirthCertificateNo());
         customerDto.setBirthPlace(address.getBirthPlace());
-        customerDto.setContactInfo(address.getContactInfo());
+//        customerDto.setContactInfo(address.getContactInfo());
 
         return customerDto;
     }

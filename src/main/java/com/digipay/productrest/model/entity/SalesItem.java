@@ -1,5 +1,6 @@
 package com.digipay.productrest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,6 +17,7 @@ public class SalesItem {
     private String id;
     @ManyToOne
     @JoinColumn(name = "order_order_ID", referencedColumnName = "ORDER_ID")
+    @JsonBackReference
     private Order orderId;
 
     @Column(name = "PRODUCT_ID", updatable = false)

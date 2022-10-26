@@ -1,7 +1,11 @@
 package com.digipay.productrest.conf.mapper.impl;
 
 import com.digipay.productrest.conf.mapper.UserDtoMapper;
+import com.digipay.productrest.enums.AddressType;
 import com.digipay.productrest.model.dto.UserDto;
+import com.digipay.productrest.model.entity.Address;
+import com.digipay.productrest.model.entity.Contact;
+import com.digipay.productrest.model.entity.ContactType;
 import com.digipay.productrest.model.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -15,37 +19,35 @@ import javax.annotation.Generated;
 @Component
 public class UserDtoMapperImpl implements UserDtoMapper {
 
+
     @Override
     public User dtoToUserMapper(UserDto userDto) {
         if (userDto == null) {
             return null;
         }
+        Address address = new Address();
+        address.setAddressType(AddressType.USER);
+        address.setProvince(userDto.getContact().getAddress().getProvince());
+        address.setCity(userDto.getContact().getAddress().getCity());
+        address.setStreet(userDto.getContact().getAddress().getStreet());
+        address.setBuildingNo(userDto.getContact().getAddress().getBuildingNo());
+        address.setPostalCode(userDto.getContact().getAddress().getPostalCode());
+
+        Contact contact = new Contact();
+        contact.setContactType(ContactType.USER);
+        contact.setEmail(userDto.getContact().getEmail());
+        contact.setAddress(address);
+        contact.setPhoneNumber(userDto.getContact().getPhoneNumber());
 
         User user = new User();
-
-        user.setUserId(userDto.getUserId());
+        user.setAccount(userDto.getAccount());
+        user.setPassword(userDto.getPassword());
         user.setUserName(userDto.getUserName());
         user.setUserLastName(userDto.getUserLastName());
         user.setRole(userDto.getRole());
-        user.setContact(userDto.getContact());
+        user.setContact(contact);
 
         return user;
     }
 
-    @Override
-    public UserDto userToDtoMapper(User user) {
-        if (user == null) {
-            return null;
-        }
-
-        UserDto userDto = new UserDto();
-
-        userDto.setUserId(user.getUserId());
-        userDto.setUserName(user.getUserName());
-        userDto.setUserLastName(user.getUserLastName());
-        userDto.setRole(user.getRole());
-        userDto.setContact(user.getContact());
-
-        return userDto;
-    }
 }

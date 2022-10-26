@@ -1,10 +1,12 @@
 package com.digipay.productrest.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
+@Data
 public class OrderDto {
 
     @JsonIgnore
@@ -14,27 +16,5 @@ public class OrderDto {
 
     private String customerId;
 
-    public String getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Set<Long> getProductsId() {
-        return productsId;
-    }
-
-    public void setProductsId(Set<Long> productsId) {
-        this.productsId = productsId;
-    }
 }

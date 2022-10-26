@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product stockInProducts(@Valid ProductDto productDto) {
+    public Product stockInProducts(ProductDto productDto) {
         return prodRepository.save(productMapper.dtoToProductMapper(productDto));
     }
 
@@ -51,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public List<Product> findNonZeroQuantsProducts(Set<Long> productsId) {
-        return deductQuantsByCount(prodRepository.findAllByProdIdInAndQuantsIsNot(productsId, 0),1);
+        return deductQuantsByCount(prodRepository.findAllByProdIdInAndQuantsIsNot(productsId, 0), 1);
     }
 
 

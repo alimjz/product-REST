@@ -23,7 +23,7 @@ public class ProductDto {
     @Min(1)
     private Integer quants;
 
-    private String warehouseId;// TODO: 10/23/2022 check the warehouse exists.
+    private WarehouseDto warehouseDto;// TODO: 10/23/2022 check the warehouse exists.
 
 
     public Long getProdId() {
@@ -90,19 +90,19 @@ public class ProductDto {
         this.prodSubType = prodSubType;
     }
 
-    public String getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(String warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
     public Integer getQuants() {
         return quants;
     }
 
     public void setQuants(Integer quants) {
         this.quants = quants;
+    }
+
+    public WarehouseDto getWarehouseDto() {
+        return warehouseDto;
+    }
+
+    public void setWarehouseDto(WarehouseDto warehouseDto) {
+        this.warehouseDto = warehouseDto;
     }
 }

@@ -1,7 +1,9 @@
 package com.digipay.productrest.conf.mapper.impl;
 
 import com.digipay.productrest.conf.mapper.WarehouseDtoMapper;
+import com.digipay.productrest.enums.AddressType;
 import com.digipay.productrest.model.dto.WarehouseDto;
+import com.digipay.productrest.model.entity.Address;
 import com.digipay.productrest.model.entity.Warehouse;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +23,16 @@ public class WarehouseDtoMapperImpl implements WarehouseDtoMapper {
             return null;
         }
 
+        Address address = new Address();
+        address.setAddressType(AddressType.WAREHOUSE);
+        address.setProvince(warehouseDto.getAddress().getProvince());
+        address.setCity(warehouseDto.getAddress().getCity());
+        address.setStreet(warehouseDto.getAddress().getStreet());
+        address.setBuildingNo(warehouseDto.getAddress().getBuildingNo());
+        address.setPostalCode(warehouseDto.getAddress().getPostalCode());
         Warehouse warehouse = new Warehouse();
-
-        warehouse.setWarehouseId(warehouseDto.getWarehouseId());
         warehouse.setWarehouseName(warehouseDto.getWarehouseName());
-        warehouse.setAddress(warehouseDto.getAddress());
+        warehouse.setAddress(address);
 
         return warehouse;
     }
@@ -38,9 +45,7 @@ public class WarehouseDtoMapperImpl implements WarehouseDtoMapper {
 
         WarehouseDto warehouseDto = new WarehouseDto();
 
-        warehouseDto.setWarehouseId(warehouse.getWarehouseId());
         warehouseDto.setWarehouseName(warehouse.getWarehouseName());
-        warehouseDto.setAddress(warehouse.getAddress());
 
         return warehouseDto;
     }

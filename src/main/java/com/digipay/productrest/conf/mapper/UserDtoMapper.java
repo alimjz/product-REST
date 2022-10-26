@@ -7,5 +7,4 @@ import com.digipay.productrest.model.entity.User;
 public interface UserDtoMapper {
     User dtoToUserMapper(UserDto userDto);
 
-    UserDto userToDtoMapper(User user);
 }

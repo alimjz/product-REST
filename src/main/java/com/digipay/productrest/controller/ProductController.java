@@ -16,16 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +43,10 @@ public class ProductController {
     }
 
 
-
     @Operation(summary = "Insert a Product record based on Inputs")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Insert a Product Instance",
-                    content = {@Content(mediaType = "application/json",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Product.class))}),
             @ApiResponse(responseCode = "400", description = BADREQUEST,
                     content = @Content),
@@ -56,16 +55,18 @@ public class ProductController {
     public ResponseEntity<BaseResponse<Product>> stockInProductsToWarehouse(@RequestBody @Valid ProductDto productDto) {
 
         Product savedProduct = prodService.stockInProducts(productDto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().
+                path("/{id}").buildAndExpand(savedProduct.getProdId())
+                .toUri();
         log.info("Product Saved.");
-        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedProduct.getProdId())
-                .toUri()).body(new BaseResponse<>(HttpStatus.CREATED.value(),
+        return ResponseEntity.created(location).body(new BaseResponse<>(HttpStatus.CREATED.value(),
                 ApplicationConstants.SUCCESS));
     }
 
     @Operation(summary = "Query List of all products")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Products found.",
-                    content = {@Content(mediaType = "application/json",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Product.class))}),
             @ApiResponse(responseCode = "400", description = BADREQUEST,
                     content = @Content),
@@ -82,11 +83,12 @@ public class ProductController {
     @Operation(summary = "Query product based on entered ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = FOUND,
-                    content = {@Content(mediaType = "application/json",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Product.class))}),
             @ApiResponse(responseCode = "400", description = BADREQUEST,
                     content = @Content),
-            @ApiResponse(responseCode = "401", description = AUTHENTICATION, content = @Content)})
+            @ApiResponse(responseCode = "401", description = AUTHENTICATION, content = @Content),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND, content = @Content)})
     @GetMapping("/products/{id}")
     public ResponseEntity<BaseResponse<Optional<Product>>> findProductById(@PathVariable(name = "id") Long id) {
         Optional<Product> result = prodService.findProductById(id);

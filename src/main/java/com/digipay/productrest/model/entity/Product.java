@@ -4,8 +4,6 @@ import com.digipay.productrest.enums.ProductStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -14,16 +12,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROD_ID")
     private Long prodId;
-
-    @NotBlank(message = "The Prod Code should not be null or Empty.")
     private String prodCode;
-
-    @NotBlank(message = "The Product Name should not be null or Empty.")
     private String prodName;
-
-    @NotNull(message = "The Product buyPrice should not be null or Empty.")
     private Double buyPrice;
-    @NotNull(message = "The Product sellPrice should not be null or Empty.")
     private Double sellPrice;
     @Column(name = "STATUS")
     private ProductStatus status;

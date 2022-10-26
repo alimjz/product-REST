@@ -1,6 +1,7 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.OrderDtoMapper;
+import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.exception.ProductNotFoundException;
 import com.digipay.productrest.model.dto.OrderDto;
 import com.digipay.productrest.model.entity.Customer;
@@ -55,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         } else if (products.size() != orderDto.getProductsId().size()) {
             throw new ProductNotFoundException(PRODUCT_NOT_FOUND);
         }
-        Order order = orderMapper.convertDtoToOrder(orderDto, products, customer, invoice);
+        Order order = orderMapper.convertDtoToOrder(orderDto, products, customer, invoice, BusinessCode.SALE);
         return orderRepository.save(order);
     }
 
@@ -65,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> queryOrderById(Long id) {
+    public Optional<Order> queryOrderById(String id) {
         return orderRepository.findById(id);
     }
 

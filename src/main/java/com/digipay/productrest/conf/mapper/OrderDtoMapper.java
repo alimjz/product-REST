@@ -1,5 +1,6 @@
 package com.digipay.productrest.conf.mapper;
 
+import com.digipay.productrest.enums.BusinessCode;
 import com.digipay.productrest.model.dto.OrderDto;
 import com.digipay.productrest.model.entity.Customer;
 import com.digipay.productrest.model.entity.Invoice;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 //@Mapper(componentModel = "spring")
 public interface OrderDtoMapper {
-    Order convertDtoToOrder(OrderDto order, List<Product> products, Optional<Customer> customer, Invoice invoice);
+    Order convertDtoToOrder(OrderDto order, List<Product> products, Optional<Customer> customer,
+                            Invoice invoice, BusinessCode businessCode);
 
 }

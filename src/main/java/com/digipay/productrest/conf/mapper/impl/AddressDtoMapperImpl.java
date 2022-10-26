@@ -23,7 +23,6 @@ public class AddressDtoMapperImpl implements AddressDtoMapper {
 
         Address address = new Address();
 
-        address.setAddressId(addressDto.getAddressId());
         address.setAddressType(addressDto.getAddressType());
         address.setProvince(addressDto.getProvince());
         address.setCity(addressDto.getCity());
@@ -42,7 +41,7 @@ public class AddressDtoMapperImpl implements AddressDtoMapper {
 
         AddressDto addressDto = new AddressDto();
 
-        addressDto.setAddressId(address.getAddressId());
+
         addressDto.setAddressType(address.getAddressType());
         addressDto.setProvince(address.getProvince());
         addressDto.setCity(address.getCity());

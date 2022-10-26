@@ -20,7 +20,7 @@ public class Contact {
     private String phoneNumber;
     @Email(message = "The Email format is not correct.")
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 

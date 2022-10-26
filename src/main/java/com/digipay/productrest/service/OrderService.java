@@ -11,7 +11,7 @@ public interface OrderService {
 
     List<Order> queryAllOrders();
 
-    Optional<Order> queryOrderById(Long id);
+    Optional<Order> queryOrderById(String id);
 
     int countCustomerOrders(String id);
 }
