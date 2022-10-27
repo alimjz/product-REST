@@ -80,4 +80,13 @@ public class ExceptionTranslator {
                 BADREQUEST, map));
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserExistException.class)
+    public ResponseEntity<BaseResponse<Map<String, String>>> userExistExceptionHandler(UserExistException ex) {
+        Map<String, String> map = new HashMap<>();
+        map.put(TITLE, ex.getLocalizedMessage());
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.BAD_REQUEST.value(),
+                BADREQUEST, map));
+    }
+
 }

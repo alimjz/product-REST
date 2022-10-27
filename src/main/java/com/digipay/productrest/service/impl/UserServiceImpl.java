@@ -1,6 +1,8 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.UserDtoMapper;
+import com.digipay.productrest.exception.ErrorConstants;
+import com.digipay.productrest.exception.UserExistException;
 import com.digipay.productrest.model.dto.UserDto;
 import com.digipay.productrest.model.entity.Role;
 import com.digipay.productrest.model.entity.User;
@@ -14,9 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserDtoMapper dtoUserMapper;
 
+    private Set<String> userCache = new HashSet<>();
+
+
     public UserServiceImpl(UserRepository userRepository, UserDtoMapper dtoUserMapper) {
         this.userRepository = userRepository;
         this.dtoUserMapper = dtoUserMapper;
@@ -32,7 +35,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(UserDto userDto) {
-        return userRepository.save(dtoUserMapper.dtoToUserMapper(userDto));
+        User user = dtoUserMapper.dtoToUserMapper(userDto);
+        if (!userCache.contains(user.getAccount())){
+            userCache.add(user.getAccount());
+            return userRepository.save(user);
+        }
+        throw new UserExistException(ErrorConstants.DUPLICATE_USER_REGISTRATION);
     }
 
     @Override

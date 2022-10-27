@@ -42,7 +42,7 @@ public class CustomerDtoMapperImpl implements CustomerDtoMapper {
 
         Customer customer = new Customer();
 
-        customer.setCustomerId(customerDto.getCustomerId());
+
         customer.setNationalId(customerDto.getNationalId());
         customer.setFirstName(customerDto.getFirstName());
         customer.setLastName(customerDto.getLastName());
@@ -61,7 +61,7 @@ public class CustomerDtoMapperImpl implements CustomerDtoMapper {
 
         CustomerDto customerDto = new CustomerDto();
 
-        customerDto.setCustomerId(address.getCustomerId());
+
         customerDto.setNationalId(address.getNationalId());
         customerDto.setFirstName(address.getFirstName());
         customerDto.setLastName(address.getLastName());

@@ -1,6 +1,5 @@
 package com.digipay.productrest.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -10,8 +9,7 @@ import java.time.LocalDate;
 
 @Data
 public class CustomerDto {
-    @JsonIgnore
-    private String customerId;
+
     @Size(max = 10, min = 10, message = "National Id should be 10 digits.")
     @NotBlank(message = "National Id is mandatory.")
     private String nationalId;

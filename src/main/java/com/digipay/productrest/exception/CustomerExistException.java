@@ -1,7 +1,7 @@
 package com.digipay.productrest.exception;
 
-public class CustomerExistException extends Exception {
+public class CustomerExistException extends RuntimeException {
     public CustomerExistException(String message) {
-        super("Customer Already Exists. Registration is not Allowed.");
+        super(message);
     }
 }

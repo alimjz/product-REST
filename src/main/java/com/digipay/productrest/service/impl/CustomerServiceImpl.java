@@ -1,6 +1,8 @@
 package com.digipay.productrest.service.impl;
 
 import com.digipay.productrest.conf.mapper.CustomerDtoMapper;
+import com.digipay.productrest.exception.CustomerExistException;
+import com.digipay.productrest.exception.ErrorConstants;
 import com.digipay.productrest.model.dto.CustomerDto;
 import com.digipay.productrest.model.entity.Customer;
 import com.digipay.productrest.repository.CustomerRepository;
@@ -10,13 +12,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerDtoMapper customerMapper;
+
+    private Set<String> customerCache = new HashSet<>();
 
     public CustomerServiceImpl(CustomerRepository customerRepository, CustomerDtoMapper customerMapper) {
         this.customerRepository = customerRepository;
@@ -25,7 +29,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer registerCustomer(CustomerDto customerDto) {
-        return customerRepository.save(customerMapper.dtoToCustomerMapper(customerDto));
+        Customer customer = customerMapper.dtoToCustomerMapper(customerDto);
+        if (!customerCache.contains(customer.getNationalId())){
+            customerCache.add(customer.getNationalId());
+            return customerRepository.save(customer);
+        }
+        throw new CustomerExistException(ErrorConstants.DUPLICATE_CUSTOMER_REGISTRATION);
+
     }
 
     @Override
