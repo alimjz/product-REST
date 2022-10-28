@@ -48,7 +48,7 @@ public class ExceptionTranslator {
     public ResponseEntity<BaseResponse<Map<String, String>>> customerDuplicationHandler(CustomerExistException ex) {
         Map<String, String> map = new HashMap<>();
         map.put(TITLE, DUPLICATE_CUSTOMER_REGISTRATION);
-        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(),
+        return ResponseEntity.badRequest().body(new BaseResponse<>(HttpStatus.BAD_REQUEST.value(),
                 BADREQUEST, map));
     }
 

@@ -44,7 +44,7 @@ public class BasicAuthenticationConfig {
         auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password("{noop}password")
-                .roles("USER");
+                .roles("USER","ADMIN");
     }
 
 

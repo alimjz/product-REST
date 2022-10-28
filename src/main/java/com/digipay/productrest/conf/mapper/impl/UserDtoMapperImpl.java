@@ -7,6 +7,7 @@ import com.digipay.productrest.model.entity.Address;
 import com.digipay.productrest.model.entity.Contact;
 import com.digipay.productrest.model.entity.ContactType;
 import com.digipay.productrest.model.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Generated;
@@ -41,7 +42,7 @@ public class UserDtoMapperImpl implements UserDtoMapper {
 
         User user = new User();
         user.setAccount(userDto.getAccount());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         user.setUserName(userDto.getUserName());
         user.setUserLastName(userDto.getUserLastName());
         user.setRole(userDto.getRole());
@@ -49,5 +50,6 @@ public class UserDtoMapperImpl implements UserDtoMapper {
 
         return user;
     }
+
 
 }

@@ -21,7 +21,6 @@ public class SalesItem {
     private Order orderId;
 
     @Column(name = "PRODUCT_ID", updatable = false)
-
     private Long productId;
 
     private String prodCode;
