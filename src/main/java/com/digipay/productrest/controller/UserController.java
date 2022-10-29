@@ -56,8 +56,8 @@ public class UserController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = AUTHENTICATION, content = @Content),
             @ApiResponse(responseCode = "404", description = NOT_FOUND, content = @Content)})
-    @GetMapping("/users")
-    public ResponseEntity<BaseResponse<User>> findUserById(String id) {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<BaseResponse<User>> findUserById(@PathVariable("id") String id) {
         if (userService.findUserByUserId(id).isPresent()) {
             return new ResponseEntity<>(new BaseResponse<>(HttpStatus.OK.value(), SUCCESS), HttpStatus.OK);
         } else

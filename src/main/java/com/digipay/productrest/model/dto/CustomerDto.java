@@ -1,6 +1,7 @@
 package com.digipay.productrest.model.dto;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
+@ToString
 public class CustomerDto {
 
     @Size(max = 10, min = 10, message = "National Id should be 10 digits.")
