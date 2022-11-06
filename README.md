@@ -5,7 +5,7 @@
 This application is written in pure java and spring boot technology. I tried to use the latest version for frameworks 
 and library to provide a robust and up-to-date application. You can use the source code or contribute with me
 if you are interested. This application can provide a set of APIs that can act as your core logic warehouse.
-There are functionalities for product, selling orders, register customer or users.
+There are functionalities for electronic, selling orders, register customer or users.
 there is Also security function to authorize the service invocations.
 
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
