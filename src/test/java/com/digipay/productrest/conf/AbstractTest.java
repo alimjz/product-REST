@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +24,8 @@ import java.io.IOException;
 @AutoConfigureMockMvc
 public class AbstractTest {
 
+    private final String basicDigestHeaderValue = "Basic " +
+            new String(Base64.encodeBase64(("admin:password").getBytes()));
     @Autowired
     protected MockMvc mvc ;
 
@@ -37,5 +40,9 @@ public class AbstractTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
         return objectMapper.readValue(json, clazz);
+    }
+
+    public String getBasicDigestHeaderValue() {
+        return basicDigestHeaderValue;
     }
 }

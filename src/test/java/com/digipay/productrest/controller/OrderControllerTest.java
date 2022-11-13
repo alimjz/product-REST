@@ -22,24 +22,22 @@ import static org.junit.Assert.assertEquals;
 class OrderControllerTest extends AbstractTest {
 
     private final String baseUrl = "http://localhost:8081/api/v1/orders";
-    private final String basicDigestHeaderValue = "Basic " +
-            new String(Base64.encodeBase64(("admin:password").getBytes()));
 
-    private String createdOrder = "http://localhost:8081/api/v1/orders/2c948a878424ae1a018424ae43060000";
+
+//    private String createdOrder = "http://localhost:8081/api/v1/orders/2c948a878424ae1a018424ae43060000";
 
 
     @Test
     @Order(1)
     void createOrderAndFindOrderById() throws Exception {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(baseUrl)
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(createDtoObject()))).andReturn();
-        log.info(createdOrder);
         int status = mvcResult.getResponse().getStatus();
         assertEquals(201, status);
 
         MvcResult findOrderByIdResult = mvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getHeader("location"))
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(createDtoObject()))).andReturn();
         assertEquals(200,findOrderByIdResult.getResponse().getStatus());
     }

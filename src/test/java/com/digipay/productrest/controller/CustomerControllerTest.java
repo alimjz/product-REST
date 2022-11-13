@@ -23,40 +23,32 @@ import static org.junit.Assert.assertEquals;
 class CustomerControllerTest extends AbstractTest {
 
     private final String baseUrl = "http://localhost:8081/api/v1/customers";
-    private final String basicDigestHeaderValue = "Basic " +
-            new String(Base64.encodeBase64(("admin:password").getBytes()));
 
-    private String createdCustomer = "http://localhost:8081/api/v1/customers/2c948a878424ae1a018424ae43060000";
+
 
     @Test
     @Order(1)
-    void createCustomer() throws Exception {
+    void createAndFindById_Customer() throws Exception {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(baseUrl)
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(createDtoObject()))).andReturn();
-        this.createdCustomer = mvcResult.getResponse().getHeader("location");
-        log.info(createdCustomer);
         int status = mvcResult.getResponse().getStatus();
         assertEquals(201, status);
-    }
-
-    @Test
-    @Order(3)
-    void findCustomerById() throws Exception {
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(createdCustomer)
-                .header("Authorization",basicDigestHeaderValue)
+        MvcResult findResult = mvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getHeader("location"))
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
+        int findStatus = findResult.getResponse().getStatus();
+        assertEquals(200, findStatus);
     }
+
 
     @Test
     @Order(2)
     void findAllCustomer() throws Exception {
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(baseUrl)
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();

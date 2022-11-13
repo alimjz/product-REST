@@ -24,21 +24,19 @@ import static org.junit.Assert.assertEquals;
 class UserControllerTest extends AbstractTest {
 
     private final String baseUrl = "http://localhost:8081/api/v1/users";
-    private final String basicDigestHeaderValue = "Basic " +
-            new String(Base64.encodeBase64(("admin:password").getBytes()));
 
 
     @Test
     @Order(1)
     void createUserAndFindUserById() throws Exception {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(baseUrl)
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(createDtoObject()))).andReturn();
         log.info(mvcResult.getResponse().getHeader("location"));
         assertEquals(201, mvcResult.getResponse().getStatus());
 
         MvcResult findUserByUserId = mvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getHeader("location"))
-                .header("Authorization",basicDigestHeaderValue)
+                .header("Authorization",super.getBasicDigestHeaderValue())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(createDtoObject()))).andReturn();
         assertEquals(200,findUserByUserId.getResponse().getStatus());
     }
